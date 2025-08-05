@@ -23,13 +23,31 @@ def add(master_key: str):
         pass_file.write(account_name + "|" + cipher.encrypt(password.encode()).decode() + "\n")
     print()
 
+def delete(line_number: int):
+    with open("passwords.txt", 'r') as pass_file:
+        account_info = pass_file.readlines()
+    try:
+        del account_info[line_number-1]
+    except Exception as e:
+        raise e
+    
+    account_info = ''.join(account_info)
 
+    with open("passwords.txt", 'w') as pass_file:
+        pass_file.write(account_info)
+ 
 while True:
-    mode = input("Which mode do you want?\n1. view (type view)\n2. add (type add)\n3. quit (press q)\n: ").lower()
+    mode = input("Which mode do you want?\n1. view (type view)\n2. add (type add)\n3. delete (type del)\n4. quit (press q)\n: ").lower()
+    print()
+
     if mode == 'q':
         break
 
     if mode == "view":
         view(master_key)
-    elif mode == "add":
+    elif mode == "add": 
         add(master_key)
+    elif mode == "del":
+        line_no = int(input("Which line number do you want to delete: "))
+        print()
+        delete(line_no)
